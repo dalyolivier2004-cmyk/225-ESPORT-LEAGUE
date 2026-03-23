@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>225 E-SPORTS LEAGUE - Actualités</title>
+    <link rel="stylesheet" href="modern-design.css">
+    <style>
+        .news-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .news-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--primary);
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+            white-space: nowrap;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 119, 0, 0.4);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .news-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 119, 0, 0.2);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(255, 119, 0, 0.3);
+            border-color: var(--primary);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #ff7700, #e66a00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .news-category {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+
+        .news-date {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .news-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .news-excerpt {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 15px;
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        .read-more-btn {
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            align-self: flex-start;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .read-more-btn:hover {
+            background: var(--primary-dark);
+            transform: translateX(5px);
+        }
+
+        .no-news {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        .no-news h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .no-news p {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        .news-detail-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .news-detail-modal.active {
+            display: flex;
+        }
+
+        .news-detail-content {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 3px solid var(--primary);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .close-modal:hover {
+            color: var(--primary-dark);
+        }
+
+        .detail-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #ff7700, #e66a00);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .detail-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .detail-category {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .detail-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 10px;
+        }
+
+        .detail-date {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 15px;
+        }
+
+        .detail-text {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- BARRE DE NAVIGATION -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="nav-pages">
+                <a href="index.html">Accueil</a>
+                <a href="tournoi.html">Tournoi</a>
+                <a href="equipes.html">Équipes</a>
+                <a href="galerie.html">Galerie</a>
+                <a href="actualites.html" class="active">Actualités</a>
+                <a href="inscription.html">Inscriptions</a>
+            </div>
+            <div class="contact-links">
+                <a href="https://wa.me/2250151792400" class="contact-btn" target="_blank">WhatsApp</a>
+                <a href="mailto:225esportsleague@gmail.com" class="contact-btn" target="_blank">Gmail</a>
+            </div>
+        </div>
+        <a href="index.html">
+            <img src="image/logo-225-new.png" alt="225 E-SPORTS LEAGUE" class="logo-top-right">
+        </a>
+    </nav>
+
+    <!-- TITRE DE PAGE -->
+    <div class="page-title">
+        <h1>Actualités</h1>
+        <div class="underline"></div>
+        <p>Restez informé des dernières nouvelles de la 225 E-SPORTS LEAGUE</p>
+    </div>
+
+    <!-- SECTION ACTUALITÉS -->
+    <div class="news-section">
+        <!-- FILTRES -->
+        <div class="news-filters">
+            <button class="filter-btn active" onclick="filterNews('all')">Toutes</button>
+            <button class="filter-btn" onclick="filterNews('tournoi')">Tournois</button>
+            <button class="filter-btn" onclick="filterNews('equipe')">Équipes</button>
+            <button class="filter-btn" onclick="filterNews('evenement')">Événements</button>
+            <button class="filter-btn" onclick="filterNews('annonce')">Annonces</button>
+        </div>
+
+        <!-- GRILLE D'ACTUALITÉS -->
+        <div id="newsContainer" class="news-grid"></div>
+
+        <!-- ÉTAT VIDE -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <h3>Aucune actualité pour le moment</h3>
+            <p>Les actualités seront bientôt disponibles. Restez connecté !</p>
+        </div>
+    </div>
+
+    <!-- MODAL DÉTAIL ACTUALITÉ -->
+    <div id="newsDetailModal" class="news-detail-modal">
+        <div class="news-detail-content">
+            <button class="close-modal" onclick="closeNewsDetail()">&times;</button>
+            <div id="newsDetailBody"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>225 E-SPORTS LEAGUE - TOUS DROITS RÉSERVÉS | 2026</p>
+    </footer>
+
+    <script src="shared-audio-manager.js"></script>
+    <script src="ux-improvements.js"></script>
+    <script>
+        let currentFilter = 'all';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNews();
+        });
+
+        function loadNews() {
+            const news = JSON.parse(localStorage.getItem('newsItems')) || [];
+            displayNews(news);
+        }
+
+        function displayNews(newsArray) {
+            const container = document.getElementById('newsContainer');
+            const emptyState = document.getElementById('emptyState');
+
+            if (newsArray.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            container.innerHTML = '';
+
+            newsArray.forEach((news, index) => {
+                if (currentFilter !== 'all' && news.category !== currentFilter) {
+                    return;
+                }
+
+                const card = document.createElement('div');
+                card.className = 'news-card';
+                card.onclick = () => openNewsDetail(index);
+
+                const imageHtml = news.image 
+                    ? `<img src="${news.image}" alt="${news.title}">`
+                    : `<div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">📰</div>`;
+
+                card.innerHTML = `
+                    <div class="news-image">${imageHtml}</div>
+                    <div class="news-content">
+                        <span class="news-category">${getCategoryLabel(news.category)}</span>
+                        <div class="news-date">${formatDate(news.date)}</div>
+                        <h3 class="news-title">${news.title}</h3>
+                        <p class="news-excerpt">${news.excerpt}</p>
+                        <button class="read-more-btn">Lire la suite</button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function filterNews(category) {
+            currentFilter = category;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            loadNews();
+        }
+
+        function openNewsDetail(index) {
+            const news = JSON.parse(localStorage.getItem('newsItems')) || [];
+            const item = news[index];
+
+            if (!item) return;
+
+            const imageHtml = item.image 
+                ? `<img src="${item.image}" alt="${item.title}">`
+                : `<div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">📰</div>`;
+
+            const detailBody = document.getElementById('newsDetailBody');
+            detailBody.innerHTML = `
+                <div class="detail-image">${imageHtml}</div>
+                <span class="detail-category">${getCategoryLabel(item.category)}</span>
+                <h2 class="detail-title">${item.title}</h2>
+                <div class="detail-date">Publié le ${formatDate(item.date)}</div>
+                <div class="detail-text">${item.content}</div>
+            `;
+
+            document.getElementById('newsDetailModal').classList.add('active');
+        }
+
+        function closeNewsDetail() {
+            document.getElementById('newsDetailModal').classList.remove('active');
+        }
+
+        function getCategoryLabel(category) {
+            const labels = {
+                'tournoi': '🏆 Tournoi',
+                'equipe': '👥 Équipe',
+                'evenement': '🎮 Événement',
+                'annonce': '📢 Annonce'
+            };
+            return labels[category] || category;
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('fr-FR', options);
+        }
+
+        // Fermer la modal en cliquant en dehors
+        document.getElementById('newsDetailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeNewsDetail();
+            }
+        });
+    </script>
+</body>
+</html>

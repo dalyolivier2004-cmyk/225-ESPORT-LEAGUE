@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>225 E-SPORTS LEAGUE - Tournois</title>
+<link rel="stylesheet" href="modern-design.css"></head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="nav-pages">
+                <a href="index.html">Accueil</a>
+                <a href="tournoi.html" class="active">Tournoi</a>
+                <a href="equipes.html">Équipes</a>
+                <a href="galerie.html">Galerie</a>
+                <a href="actualites.html">Actualités</a>
+                <a href="inscription.html">Inscriptions</a>
+            </div>
+            <div class="contact-links">
+                <a href="https://wa.me/2250151792400" class="contact-btn" target="_blank">WhatsApp</a>
+                <a href="mailto:225esportsleague@gmail.com" class="contact-btn" target="_blank">Gmail</a>
+            </div>
+        </div>
+        <a href="index.html">
+            <img src="image/logo-225-new.png" alt="225 E-SPORTS LEAGUE" class="logo-top-right">
+        </a>
+    </nav>
+
+    <div class="page-title">
+        <h1>Nos Tournois</h1>
+        <div class="underline"></div>
+        <p>Retrouvez toutes les informations sur nos compétitions esportives.</p>
+    </div>
+
+    <div class="tournoi-section">
+        <h2 id="next-tour-title">PROCHAIN TOURNOI</h2>
+        <div class="no-event-message">
+            <h3 id="next-tour-name">CHARGEMENT...</h3>
+            <div id="countdown" style="font-size: 40px; color: #ff7700; margin: 20px 0; font-weight: bold; display: flex; justify-content: center; gap: 20px;">
+                <div class="time-unit"><span id="days">00</span><p style="font-size: 12px; color: #666;">JOURS</p></div>
+                <div class="time-unit"><span id="hours">00</span><p style="font-size: 12px; color: #666;">HEURES</p></div>
+                <div class="time-unit"><span id="minutes">00</span><p style="font-size: 12px; color: #666;">MINS</p></div>
+                <div class="time-unit"><span id="seconds">00</span><p style="font-size: 12px; color: #666;">SECS</p></div>
+            </div>
+            <p id="next-tour-desc">Le tournoi inaugural de la saison 2026 approche. Préparez vos équipes !</p>
+            <a href="inscription.html">Pré-inscrivez-vous maintenant</a>
+        </div>
+    </div>
+
+    <div class="past-events-section">
+        <h2>Événements passés</h2>
+        <div id="past-tournaments-container">
+            <div class="no-event-message">
+                <h3>Aucun événement terminé</h3>
+                <p>La 225 E-SPORTS LEAGUE prépare ses premiers tournois.</p>
+                <a href="galerie.html">Voir nos réseaux</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>225 E-SPORTS LEAGUE - TOUS DROITS RÉSERVÉS | 2026</p>
+    </footer>
+
+    <script src="shared-audio-manager.js"></script>
+    <script src="ux-improvements.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadTournaments();
+        });
+
+        function loadTournaments() {
+            // Charger le prochain tournoi
+            const next = JSON.parse(localStorage.getItem('nextTournament'));
+            if (next) {
+                document.getElementById('next-tour-name').innerText = next.title;
+                document.getElementById('next-tour-desc').innerText = next.desc;
+                startCountdown(next.date);
+            } else {
+                document.getElementById('next-tour-name').innerText = "TOURNOI INAUGURAL 2026";
+                startCountdown("2026-04-18T10:00:00");
+            }
+
+            // Charger les événements passés
+            const past = JSON.parse(localStorage.getItem('pastTournaments')) || [];
+            const container = document.getElementById('past-tournaments-container');
+            
+            if (past.length > 0) {
+                container.innerHTML = '';
+                past.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'no-event-message';
+                    div.style.marginBottom = '20px';
+                    div.innerHTML = `
+                        <h3>${item.title}</h3>
+                        <p>${item.summary}</p>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+        }
+
+        function startCountdown(dateString) {
+            const countDownDate = new Date(dateString).getTime();
+            const x = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
+                
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown").innerHTML = "LE TOURNOI EST LANCÉ !";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+                document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+                document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+                document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

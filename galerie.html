@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>225 E-SPORTS LEAGUE - Galerie</title>
+<link rel="stylesheet" href="modern-design.css"></head>
+<body class="page-galerie">
+    <!-- BARRE DE NAVIGATION -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="nav-pages">
+                <a href="index.html">Accueil</a>
+                <a href="tournoi.html">Tournoi</a>
+                <a href="equipes.html">Équipes</a>
+                <a href="galerie.html" class="active">Galerie</a>
+                <a href="actualites.html">Actualités</a>
+                <a href="inscription.html">Inscriptions</a>
+            </div>
+            <div class="contact-links">
+                <a href="https://wa.me/2250151792400?text=Bonjour%20!%20Je%20veux%20voir%20vos%20contenus%20!" class="contact-btn" target="_blank">WhatsApp</a>
+                <a href="mailto:225esportsleague@gmail.com?subject=Demande%20contenu%20galerie" class="contact-btn" target="_blank">Gmail</a>
+            </div>
+        </div>
+        <img src="image/logo-225-new.png" alt="225 E-SPORTS LEAGUE" class="logo-top-right">
+    </nav>
+
+    <!-- TITRE DE LA PAGE -->
+    <div class="page-title">
+        <h1>Galerie & Réseaux</h1>
+        <div class="underline"></div>
+    </div>
+
+    <!-- SECTION RÉSEAUX SOCIAUX / CHAÎNES -->
+    <div class="reseaux-section">
+        <h2 style="text-align: center; color: #fff; margin-bottom: 30px; text-shadow: 2px 2px 5px rgba(0,0,0,0.5);">Nos Chaînes & Réseaux Sociaux</h2>
+        <div class="reseaux-grid" id="networks-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px;">
+            <!-- Les réseaux seront chargés ici -->
+        </div>
+    </div>
+
+    <!-- SECTION VIDÉOS YOUTUBE -->
+    <div class="videos-section">
+        <h2 style="text-align: center; color: #fff; margin-bottom: 30px; text-shadow: 2px 2px 5px rgba(0,0,0,0.5);">Vidéos & Lives</h2>
+        <div class="videos-grid" id="videos-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px;">
+            <!-- Les vidéos seront chargés ici -->
+        </div>
+    </div>
+
+    <!-- SECTION PHOTOS -->
+    <div class="photos-section">
+        <h2 style="text-align: center; color: #fff; margin-bottom: 30px; text-shadow: 2px 2px 5px rgba(0,0,0,0.5);">Photos des événements</h2>
+        <div class="photos-grid" id="photos-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px;">
+            <!-- Les photos seront chargés ici -->
+        </div>
+    </div>
+
+    <footer>
+        <p>225 E-SPORTS LEAGUE - TOUS DROITS RÉSERVÉS | 2026</p>
+    </footer>
+
+    <script src="shared-audio-manager.js"></script>
+    <script src="ux-improvements.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadGalleryItems();
+        });
+
+        function loadGalleryItems() {
+            const adminItems = JSON.parse(localStorage.getItem("adminGallery")) || [];
+            const networksGrid = document.getElementById("networks-grid");
+            const videosGrid = document.getElementById("videos-grid");
+            const photosGrid = document.getElementById("photos-grid");
+
+            // Nettoyer les grilles
+            networksGrid.innerHTML = '';
+            videosGrid.innerHTML = '';
+            photosGrid.innerHTML = '';
+
+            // Si aucun contenu admin, charger les contenus par défaut
+            if (adminItems.length === 0) {
+                loadDefaultContent();
+                return;
+            }
+
+            adminItems.forEach(item => {
+                if (item.type === 'network') {
+                    const card = document.createElement('div');
+                    card.className = `reseau-card ${item.title.toLowerCase()}`;
+                    card.innerHTML = `
+                        ${item.imgData ? `<img src="${item.imgData}" class="reseau-icon" style="width: 60px; height: 60px; object-fit: contain; margin-bottom: 15px;">` : `<img src="image/${item.title.toLowerCase()}-icon.png" class="reseau-icon" onerror="this.src='image/logo-225-new.png'" style="width: 60px; height: 60px; object-fit: contain; margin-bottom: 15px;">`}
+                        <h3>${item.title.toUpperCase()}</h3>
+                        <p>${item.desc}</p>
+                        <a href="${item.url}" class="reseau-link" target="_blank" style="display: inline-block; margin-top: 15px; background: var(--primary); color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">Visiter</a>
+                    `;
+                    networksGrid.appendChild(card);
+                } else if (item.type === 'video') {
+                    const card = document.createElement('div');
+                    card.className = 'video-card';
+                    card.innerHTML = `
+                        <div class="video-placeholder" style="width: 100%; height: 180px; background: #000; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                            ${item.imgData ? `<img src="${item.imgData}" style="width:100%; height:100%; object-fit:cover;">` : `<p style="color: #fff;">VIDÉO</p>`}
+                        </div>
+                        <div style="padding: 15px;">
+                            <p><strong>${item.title}</strong></p>
+                            <p style="font-size:12px; color:#666; margin: 10px 0;">${item.desc}</p>
+                            ${item.url ? `<a href="${item.url}" class="reseau-link" target="_blank" style="color: var(--primary); font-weight: bold; text-decoration: none;">Voir la vidéo →</a>` : ''}
+                        </div>
+                    `;
+                    videosGrid.appendChild(card);
+                } else if (item.type === 'photo') {
+                    const card = document.createElement('div');
+                    card.className = 'photo-card';
+                    card.innerHTML = `
+                        <div class="photo-placeholder" style="width: 100%; height: 200px; background: #eee; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                            ${item.imgData ? `<img src="${item.imgData}" style="width:100%; height:100%; object-fit:cover;">` : `<p style="color: #999;">PHOTO</p>`}
+                        </div>
+                        <div style="padding: 15px;">
+                            <p><strong>${item.title}</strong></p>
+                            <p style="font-size:12px; color:#666;">${item.desc}</p>
+                        </div>
+                    `;
+                    photosGrid.appendChild(card);
+                }
+            });
+        }
+
+        function loadDefaultContent() {
+            const networksGrid = document.getElementById("networks-grid");
+            networksGrid.innerHTML = `
+                <div class="reseau-card youtube">
+                    <img src="image/youtube-logo.jpg" alt="Logo YouTube" class="reseau-icon" style="width: 60px; height: 60px; object-fit: contain; border-radius: 50%; margin-bottom: 15px;">
+                    <h3>CHAÎNE YOUTUBE</h3>
+                    <p>Retrouvez nos lives, highlights et interviews !</p>
+                    <a href="https://www.youtube.com/@225ESL" class="reseau-link" target="_blank" style="display: inline-block; margin-top: 15px; background: var(--primary); color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">Visiter la chaîne</a>
+                </div>
+                <div class="reseau-card tiktok">
+                    <img src="image/tiktok-logo.jpg" alt="Logo TikTok" class="reseau-icon" style="width: 60px; height: 60px; object-fit: contain; border-radius: 50%; margin-bottom: 15px;">
+                    <h3>COMPTE TIKTOK</h3>
+                    <p>Vidéos courtes, défis et moments forts des tournois !</p>
+                    <a href="https://tiktok.com/@toncompte" class="reseau-link" target="_blank" style="display: inline-block; margin-top: 15px; background: var(--primary); color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">Suivre sur TikTok</a>
+                </div>
+            `;
+            
+            const videosGrid = document.getElementById("videos-grid");
+            videosGrid.innerHTML = `
+                <div class="video-card">
+                    <div class="video-placeholder" style="width: 100%; height: 180px; background: #000; border-radius: 8px; display: flex; align-items: center; justify-content: center;"><p style="color: #fff;">VIDÉO À VENIR</p></div>
+                    <div style="padding: 15px;">
+                        <p><strong>Highlight du prochain tournoi</strong></p>
+                        <a href="#" class="reseau-link" style="color: var(--primary); font-weight: bold; text-decoration: none;">Plus tard</a>
+                    </div>
+                </div>
+            `;
+
+            const photosGrid = document.getElementById("photos-grid");
+            photosGrid.innerHTML = `
+                <div class="photo-card">
+                    <div class="photo-placeholder" style="width: 100%; height: 200px; background: #eee; border-radius: 8px; display: flex; align-items: center; justify-content: center;"><p style="color: #999;">PHOTO À VENIR</p></div>
+                    <div style="padding: 15px;">
+                        <p>Équipes en scène</p>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

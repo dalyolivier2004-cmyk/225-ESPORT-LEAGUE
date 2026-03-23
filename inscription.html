@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>225 E-SPORTS LEAGUE - Inscriptions</title>
+<link rel="stylesheet" href="modern-design.css"></head>
+<body class="page-inscription">
+    <!-- BARRE DE NAVIGATION -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="nav-pages">
+                <a href="index.html">Accueil</a>
+                <a href="tournoi.html">Tournoi</a>
+                <a href="equipes.html">Équipes</a>
+                <a href="galerie.html">Galerie</a>
+                <a href="actualites.html">Actualités</a>
+                <a href="inscription.html" class="active">Inscriptions</a>
+            </div>
+            <div class="contact-links">
+                <a href="https://wa.me/2250151792400?text=Bonjour%20!%20Je%20souhaite%20m'inscrire%20à%20la%20225%20E-SPORTS%20LEAGUE" class="contact-btn" target="_blank">WhatsApp</a>
+                <a href="mailto:225esportsleague@gmail.com?subject=Inscription%20225%20E-SPORTS%20LEAGUE" class="contact-btn" target="_blank">Gmail</a>
+            </div>
+        </div>
+        <a href="index.html"><img src="image/logo-225-new.png" alt="225 E-SPORTS LEAGUE" class="logo-top-right"></a>
+    </nav>
+
+    <!-- TITRE DE LA PAGE -->
+    <div class="page-title">
+        <h1>Inscriptions Ouvertes</h1>
+        <div class="underline"></div>
+    </div>
+
+    <!-- SECTION INFOS PRATIQUES -->
+    <div class="info-section">
+        <h2>Ce qu'il faut savoir avant de s'inscrire</h2>
+        <ul>
+            <li>Inscriptions valables pour la saison 2026 de la 225 E-SPORTS LEAGUE</li>
+            <li><strong>Type de Jeux :</strong> MOBA et Battle Royale</li>
+            <li><strong>Tarifs :</strong>
+                <ul style="margin-top: 8px;">
+                    <li>MOBA : 5 000 FCFA par équipe</li>
+                    <li>Battle Royale : 6 000 FCFA par équipe et 2 000 FCFA par joueur individuel</li>
+                </ul>
+            </li>
+            <li>Date limite d'inscription : 31 mai 2026</li>
+            <li>Tous les joueurs doivent être âgés d'au moins 13 ans</li>
+            <li>Les équipes doivent comporter au moins 5 joueurs (avec 2 remplaçants maximum)</li>
+        </ul>
+        <p>Après validation du formulaire, nous vous contacterons dans les 24h pour confirmer votre inscription et les modalités de paiement.</p>
+    </div>
+
+    <!-- SECTION FORMULAIRE D'INSCRIPTION -->
+    <div class="form-section">
+        <div class="form-container">
+            <h2 class="form-title">Formulaire d'Inscription</h2>
+            
+            <div class="success-message" id="successMessage">
+                ✓ Votre inscription a été envoyée avec succès ! Nous vous contacterons bientôt.
+            </div>
+
+            <form id="registrationForm">
+                <!-- ÉTAPE 1 : CHOIX DE LA CATÉGORIE -->
+                <div id="step-category" class="form-step active">
+                    <h3 style="text-align: center; color: var(--primary); margin-bottom: 20px;">ÉTAPE 1 : Choisissez votre catégorie</h3>
+                    <div class="form-group">
+                        <label for="game-category">TYPE DE JEU</label>
+                        <select id="game-category" name="game-category" required onchange="handleCategoryChange()">
+                            <option value="">Choisissez une catégorie</option>
+                            <option value="moba">🎮 MOBA (LoL, Valorant, etc.)</option>
+                            <option value="br">👥 Battle Royale (Fortnite, Apex, etc.)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- ÉTAPE 2 : CHOIX DU TYPE D'INSCRIPTION -->
+                <div id="step-inscription-type" class="form-step" style="display: none;">
+                    <h3 style="text-align: center; color: var(--primary); margin-bottom: 20px;">ÉTAPE 2 : Choisissez votre type d'inscription</h3>
+                    <div class="form-group">
+                        <label for="inscription-type">TYPE D'INSCRIPTION</label>
+                        <select id="inscription-type" name="inscription-type" required onchange="handleInscriptionTypeChange()">
+                            <option value="">Choisissez une option</option>
+                            <option value="team">👥 Équipe</option>
+                            <option value="individual">🎮 Solo (Joueur Individuel)</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn-back" onclick="goBackToCategory()" style="background: #999; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">← Retour</button>
+                </div>
+
+                <!-- ÉTAPE 3 : LE RESTE DU FORMULAIRE -->
+                <div id="step-details" class="form-step" style="display: none;">
+                    <h3 style="text-align: center; color: var(--primary); margin-bottom: 20px;">ÉTAPE 3 : Complétez vos informations</h3>
+
+                    <!-- JEU CONCERNÉ -->
+                    <div class="form-group">
+                        <label for="game-concerned">JEU CONCERNÉ</label>
+                        <select id="game-concerned" name="game-concerned" required onchange="updateForm()">
+                            <option value="">Choisissez un jeu</option>
+                            <!-- Options dynamiques -->
+                        </select>
+                    </div>
+
+                    <!-- NOM COMPLET DU CONTACT / JOUEUR -->
+                    <div class="form-group">
+                        <label for="captain-name">NOM COMPLET DU CONTACT / JOUEUR</label>
+                        <input type="text" id="captain-name" name="captain-name" placeholder="Ex: Junior Koné" required>
+                    </div>
+
+                    <!-- NUMÉRO DE TÉLÉPHONE -->
+                    <div class="form-group">
+                        <label for="captain-phone">NUMÉRO DE TÉLÉPHONE (AVEC INDICATIF)</label>
+                        <input type="tel" id="captain-phone" name="captain-phone" placeholder="Ex: +225 01 51 79 24 00" required>
+                    </div>
+
+                    <!-- ADRESSE MAIL -->
+                    <div class="form-group">
+                        <label for="captain-email">ADRESSE MAIL</label>
+                        <input type="email" id="captain-email" name="captain-email" placeholder="Ex: contact@equipe.com" required>
+                    </div>
+
+                    <!-- NOM DU CLAN (SI ÉQUIPE) -->
+                    <div class="form-group" id="clan-name-group" style="display: none;">
+                        <label for="clan-name">NOM DU CLAN</label>
+                        <input type="text" id="clan-name" name="clan-name" placeholder="Ex: Phoenix Gaming, Dark Lions">
+                    </div>
+
+                    <!-- LOGO DU CLAN (SI ÉQUIPE) -->
+                    <div class="form-group" id="clan-logo-group" style="display: none;">
+                        <label for="clan-logo">LOGO DU CLAN (TÉLÉCHARGER UNE IMAGE)</label>
+                        <div class="logo-upload-container">
+                            <div class="logo-input-wrapper">
+                                <input type="file" id="clan-logo" name="clan-logo" accept="image/*" onchange="previewLogo(event)">
+                                <span class="file-label">Cliquez pour sélectionner une image</span>
+                            </div>
+                            <div class="logo-preview" id="logoPreview">
+                                <p>Aperçu du logo</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LISTE DES JOUEURS MOBA (SI ÉQUIPE) -->
+                    <div class="form-group" id="players-moba-group" style="display: none;">
+                        <label>LISTE DES JOUEURS MOBA</label>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div>
+                                <label style="font-size: 13px; color: #666; margin-bottom: 5px; display: block;">🎮 JUNGLE</label>
+                                <input type="text" id="player-jungle" name="player-jungle" placeholder="Nom - Pseudo" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                            </div>
+                            <div>
+                                <label style="font-size: 13px; color: #666; margin-bottom: 5px; display: block;">🏹 ADC (Tireur)</label>
+                                <input type="text" id="player-adc" name="player-adc" placeholder="Nom - Pseudo" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                            </div>
+                            <div>
+                                <label style="font-size: 13px; color: #666; margin-bottom: 5px; display: block;">🎯 MID (Milieu)</label>
+                                <input type="text" id="player-mid" name="player-mid" placeholder="Nom - Pseudo" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                            </div>
+                            <div>
+                                <label style="font-size: 13px; color: #666; margin-bottom: 5px; display: block;">⚔️ COMBATTANT (Top)</label>
+                                <input type="text" id="player-combattant" name="player-combattant" placeholder="Nom - Pseudo" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                            </div>
+                            <div>
+                                <label style="font-size: 13px; color: #666; margin-bottom: 5px; display: block;">🛡️ SUPPORT</label>
+                                <input type="text" id="player-support" name="player-support" placeholder="Nom - Pseudo" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                            </div>
+                        </div>
+                        <p style="font-size: 12px; color: #999; margin-top: 10px;">Vous pouvez ajouter des remplaçants dans le message supplémentaire</p>
+                    </div>
+
+                    <!-- LISTE DES JOUEURS BATTLE ROYALE (SI ÉQUIPE) -->
+                    <div class="form-group" id="players-br-group" style="display: none;">
+                        <label for="players-list-br">LISTE DES JOUEURS (NOMS ET PSEUDOS - UN PAR LIGNE)</label>
+                        <textarea id="players-list-br" name="players-list-br" rows="5" placeholder="Ex:&#10;Junior Koné - IvoryGamer&#10;Koffi Doe - KofiTop&#10;Amara Diallo - AmaGamer"></textarea>
+                    </div>
+
+                    <!-- MESSAGE SUPPLÉMENTAIRE -->
+                    <div class="form-group">
+                        <label for="message">MESSAGE SUPPLÉMENTAIRE (QUESTIONS, DEMANDES SPÉCIALES)</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Votre message ici..."></textarea>
+                    </div>
+
+                    <!-- BOUTONS D'ACTION -->
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" class="btn-back" onclick="goBackToInscriptionType()" style="background: #999; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; flex: 1;">← Retour</button>
+                        <button type="submit" class="submit-btn" style="flex: 1;">ENVOYER L'INSCRIPTION</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- BOUTON CONTACT PAR WHATSAPP -->
+        <div class="whatsapp-cta">
+            <a href="https://wa.me/2250151792400?text=Bonjour%20!%20Je%20veux%20m'inscrire%20à%20la%20225%20E-SPORTS%20LEAGUE" target="_blank">OU CONTACTEZ-NOUS DIRECTEMENT PAR WHATSAPP</a>
+        </div>
+    </div>
+
+    <!-- PIED DE PAGE -->
+    <footer>
+        <p>225 E-SPORTS LEAGUE - TOUS DROITS RÉSERVÉS | DISPONIBLES DU LUNDI AU SAMEDI 9H-18H</p>
+    </footer>
+
+<script src="shared-audio-manager.js"></script>
+<script src="ux-improvements.js"></script>
+<script>
+    // Détecteur de combinaison secrète YM
+    let keySequenceAdmin = '';
+    document.addEventListener('keydown', function(e) {
+        keySequenceAdmin += e.key.toUpperCase();
+        if (keySequenceAdmin.includes('YM')) {
+            localStorage.setItem('isAdmin', 'true');
+            window.location.href = 'admin.html';
+            keySequenceAdmin = '';
+        }
+        if (keySequenceAdmin.length > 10) {
+            keySequenceAdmin = keySequenceAdmin.slice(-2);
+        }
+    });
+</script>
+<script>
+    // Gestion des étapes du formulaire
+    function handleCategoryChange() {
+        const category = document.getElementById('game-category').value;
+        if (category) {
+            // Afficher l'étape 2
+            document.getElementById('step-category').classList.remove('active');
+            document.getElementById('step-inscription-type').style.display = 'block';
+            document.getElementById('step-inscription-type').classList.add('active');
+        }
+    }
+
+    function handleInscriptionTypeChange() {
+        const inscriptionType = document.getElementById('inscription-type').value;
+        if (inscriptionType) {
+            // Afficher l'étape 3
+            document.getElementById('step-inscription-type').classList.remove('active');
+            document.getElementById('step-details').style.display = 'block';
+            document.getElementById('step-details').classList.add('active');
+            
+            // Mettre à jour les options de jeu
+            updateGameOptions();
+            updateForm();
+        }
+    }
+
+    function goBackToCategory() {
+        document.getElementById('step-inscription-type').style.display = 'none';
+        document.getElementById('step-inscription-type').classList.remove('active');
+        document.getElementById('step-category').classList.add('active');
+        document.getElementById('inscription-type').value = '';
+    }
+
+    function goBackToInscriptionType() {
+        document.getElementById('step-details').style.display = 'none';
+        document.getElementById('step-details').classList.remove('active');
+        document.getElementById('step-inscription-type').style.display = 'block';
+        document.getElementById('step-inscription-type').classList.add('active');
+    }
+
+    // Gestion des options de jeu dynamiques
+    function updateGameOptions() {
+        const category = document.getElementById('game-category').value;
+        const gameSelect = document.getElementById('game-concerned');
+        
+        gameSelect.innerHTML = '<option value="">Choisissez un jeu</option>';
+        
+        if (category === 'moba') {
+            gameSelect.innerHTML += `
+                <option value="League of Legends">League of Legends</option>
+                <option value="Heroes Evolved">Heroes Evolved</option>
+                <option value="DRAGON BALL GEKISHIN SQUADRA">DRAGON BALL GEKISHIN SQUADRA</option>
+                <option value="Arena of Valor">Arena of Valor</option>
+                <option value="Thetan Arena: MOBA Survival">Thetan Arena: MOBA Survival</option>
+                <option value="Honor of Kings">Honor of Kings</option>
+            `;
+        } else if (category === 'br') {
+            gameSelect.innerHTML += `
+                <option value="Apex Legends">Apex Legends</option>
+                <option value="Brawl Stars">Brawl Stars</option>
+                <option value="Farlight 84">Farlight 84</option>
+                <option value="Blood Strike">Blood Strike</option>
+                <option value="Free Fire MAX">Free Fire MAX</option>
+                <option value="NEW STATE : NEW ERA OF BR">NEW STATE : NEW ERA OF BR</option>
+                <option value="Battle Prime: Action & Combat">Battle Prime: Action & Combat</option>
+                <option value="Call of Duty®: Mobile">Call of Duty®: Mobile</option>
+            `;
+        }
+    }
+
+    // Gestion du formulaire adaptatif
+    function updateForm() {
+        const inscriptionType = document.getElementById('inscription-type').value;
+        const gameCategory = document.getElementById('game-category').value;
+        const playersMobaGroup = document.getElementById('players-moba-group');
+        const playersBrGroup = document.getElementById('players-br-group');
+        const clanLogoGroup = document.getElementById('clan-logo-group');
+        const clanNameGroup = document.getElementById('clan-name-group');
+
+        // Masquer tout par défaut
+        playersMobaGroup.style.display = 'none';
+        playersBrGroup.style.display = 'none';
+        clanLogoGroup.style.display = 'none';
+        clanNameGroup.style.display = 'none';
+
+        // Afficher/masquer selon le type
+        if (inscriptionType === 'team') {
+            clanLogoGroup.style.display = 'block';
+            clanNameGroup.style.display = 'block';
+            
+            if (gameCategory === 'moba') {
+                playersMobaGroup.style.display = 'block';
+            } else if (gameCategory === 'br') {
+                playersBrGroup.style.display = 'block';
+            }
+        }
+    }
+
+    // Fonction pour afficher l'aperçu du logo
+    function previewLogo(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('logoPreview');
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.innerHTML = `<img src="${e.target.result}" alt="Logo du clan" style="max-width: 100%; max-height: 200px; object-fit: contain;">`;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.innerHTML = '<p>Aperçu du logo</p>';
+        }
+    }
+
+    // Gestion de la soumission du formulaire
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const clanLogoInput = document.getElementById("clan-logo");
+        
+        const saveFormData = (clanLogoData) => {
+            const gameCategory = document.getElementById("game-category").value;
+            let playersList = [];
+            
+            // Récupérer les joueurs selon la catégorie
+            if (gameCategory === 'moba') {
+                const roles = ['jungle', 'adc', 'mid', 'combattant', 'support'];
+                const roleLabels = { jungle: 'Jungle', adc: 'ADC', mid: 'Mid', combattant: 'Combattant', support: 'Support' };
+                
+                roles.forEach(role => {
+                    const value = document.getElementById(`player-${role}`).value.trim();
+                    if (value) {
+                        const parts = value.split('-');
+                        playersList.push({
+                            name: parts[0]?.trim() || 'Joueur',
+                            role: roleLabels[role]
+                        });
+                    }
+                });
+            } else if (gameCategory === 'br') {
+                const brText = document.getElementById("players-list-br").value;
+                playersList = brText.split('\n').filter(l => l.trim()).map(l => {
+                    const p = l.split('-');
+                    return { name: p[0]?.trim() || 'Joueur', role: p[1]?.trim() || 'Joueur BR' };
+                });
+            }
+            
+            const formData = {
+                inscriptionType: document.getElementById("inscription-type").value,
+                gameCategory: gameCategory,
+                gameConcerned: document.getElementById("game-concerned").value,
+                captainName: document.getElementById("captain-name").value,
+                captainPhone: document.getElementById("captain-phone").value,
+                captainEmail: document.getElementById("captain-email").value,
+                clanName: document.getElementById("clan-name").value,
+                clanLogo: clanLogoData,
+                playersList: playersList.map(p => `${p.name} - ${p.role}`).join('\n'),
+                players: playersList,
+                message: document.getElementById("message").value,
+                timestamp: new Date().toLocaleString("fr-FR"),
+                status: "pending"
+            };
+
+            // Sauvegarder dans localStorage
+            let submissions = JSON.parse(localStorage.getItem("inscriptionSubmissions")) || [];
+            submissions.push(formData);
+            localStorage.setItem("inscriptionSubmissions", JSON.stringify(submissions));
+
+            // Afficher le message de succès
+            const successMsg = document.getElementById("successMessage");
+            successMsg.style.display = "block";
+            successMsg.scrollIntoView({ behavior: "smooth" });
+
+            // Réinitialiser le formulaire
+            e.target.reset();
+            document.getElementById('step-category').classList.add('active');
+            document.getElementById('step-inscription-type').style.display = 'none';
+            document.getElementById('step-inscription-type').classList.remove('active');
+            document.getElementById('step-details').style.display = 'none';
+            document.getElementById('step-details').classList.remove('active');
+
+            // Masquer le message après 5 secondes
+            setTimeout(() => {
+                successMsg.style.display = "none";
+            }, 5000);
+        };
+
+        if (clanLogoInput.files && clanLogoInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                saveFormData(e.target.result);
+            };
+            reader.readAsDataURL(clanLogoInput.files[0]);
+        } else {
+            saveFormData(null);
+        }
+    });
+</script>
+<style>
+    .form-step {
+        animation: fadeIn 0.3s ease-in;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    .form-step.active {
+        display: block;
+    }
+</style>
+</body>
+</html>

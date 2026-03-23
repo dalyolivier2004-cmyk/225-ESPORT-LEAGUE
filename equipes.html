@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>225 E-SPORTS LEAGUE - Équipes</title>
+<link rel="stylesheet" href="modern-design.css?v=2.0"></head>
+<body class="page-equipes">
+    <!-- BARRE DE NAVIGATION À JOUR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="nav-pages">
+                <a href="index.html">Accueil</a>
+                <a href="tournoi.html">Tournoi</a>
+                <a href="equipes.html" class="active">Équipes</a>
+                <a href="galerie.html">Galerie</a>
+                <a href="actualites.html">Actualités</a>
+                <a href="inscription.html">Inscriptions</a>
+            </div>
+            <div class="contact-links">
+                <a href="https://wa.me/2250151792400?text=Bonjour%20!%20Je%20veux%20inscrire%20mon%20équipe%20à%20la%20225%20E-SPORTS%20LEAGUE" class="contact-btn" target="_blank">WhatsApp</a>
+                <a href="mailto:225esportsleague@gmail.com?subject=Inscription%20équipe%20225%20E-SPORTS%20LEAGUE" class="contact-btn" target="_blank">Gmail</a>
+            </div>
+        </div>
+        <img src="image/logo-225-new.png" alt="225 E-SPORTS LEAGUE" class="logo-top-right">
+    </nav>
+
+    <!-- TITRE DE LA PAGE -->
+    <div class="page-title">
+        <h1>Équipes Inscrites</h1>
+        <div class="underline"></div>
+        <p>Retrouvez les équipes et joueurs inscrits à la 225 E-SPORTS LEAGUE</p>
+    </div>
+
+    <!-- ONGLETS DE CATÉGORIES -->
+    <div class="category-tabs">
+        <button class="tab-btn active" onclick="switchTab('moba')">🎮 MOBA</button>
+        <button class="tab-btn" onclick="switchTab('br-team')">👥 Battle Royale</button>
+    </div>
+
+    <!-- SECTION ÉQUIPES -->
+    <div class="teams-section">
+        <!-- CONTENU MOBA -->
+        <div id="moba" class="tab-content active">
+            <h2 style="text-align: center; color: white; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Joueurs & Équipes MOBA</h2>
+            <div id="moba-list">
+                <div class="no-teams-message">
+                    <p>Aucune équipe MOBA inscrite pour le moment.</p>
+                    <p>Soyez les premiers à vous inscrire !</p>
+                    <a href="inscription.html">S'inscrire maintenant</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENU BATTLE ROYALE -->
+        <div id="br-team" class="tab-content" style="display: none;">
+            <h2 style="text-align: center; color: white; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Équipes Battle Royale</h2>
+            <div id="br-list">
+                <div class="no-teams-message">
+                    <p>Aucune équipe Battle Royale inscrite pour le moment.</p>
+                    <p>Formez votre équipe et rejoignez-nous !</p>
+                    <a href="inscription.html">S'inscrire maintenant</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIED DE PAGE -->
+    <footer>
+        <p>225 E-SPORTS LEAGUE - TOUS DROITS RÉSERVÉS | DISPONIBLES DU LUNDI AU SAMEDI 9H-18H</p>
+    </footer>
+
+<script src="shared-audio-manager.js"></script>
+<script src="ux-improvements.js"></script>
+<script>
+    // Détecteur de combinaison secrète YM
+    let keySequenceAdmin = '';
+    document.addEventListener('keydown', function(e) {
+        keySequenceAdmin += e.key.toUpperCase();
+        if (keySequenceAdmin.includes('YM')) {
+            localStorage.setItem('isAdmin', 'true');
+            window.location.href = 'admin.html';
+            keySequenceAdmin = '';
+        }
+        if (keySequenceAdmin.length > 10) {
+            keySequenceAdmin = keySequenceAdmin.slice(-2);
+        }
+    });
+
+    // Gestion des onglets de catégories
+    function switchTab(tabName) {
+        // Masquer tous les onglets
+        const contents = document.querySelectorAll('.tab-content');
+        contents.forEach(content => {
+            content.style.display = 'none';
+            content.classList.remove('active');
+        });
+
+        // Désactiver tous les boutons
+        const buttons = document.querySelectorAll('.tab-btn');
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // Afficher l'onglet sélectionné
+        const selectedContent = document.getElementById(tabName);
+        selectedContent.style.display = 'block';
+        selectedContent.classList.add('active');
+
+        // Activer le bouton sélectionné
+        const selectedBtn = document.querySelector(`button[onclick="switchTab('${tabName}')"]`);
+        if (selectedBtn) selectedBtn.classList.add('active');
+
+        // Sauvegarder la sélection dans localStorage
+        localStorage.setItem('selectedTeamTab', tabName);
+    }
+
+    // Charger les inscriptions depuis localStorage et afficher les équipes approuvées
+    function loadApprovedTeams() {
+        const submissions = JSON.parse(localStorage.getItem('inscriptionSubmissions')) || [];
+        const approvedSubmissions = submissions.filter(sub => sub.status === 'approved');
+        
+        const mobaList = document.getElementById('moba-list');
+        const brList = document.getElementById('br-list');
+
+        // Filtrer les équipes
+        const mobaTeams = approvedSubmissions.filter(team => {
+            const category = (team.gameCategory || '').toLowerCase();
+            const game = (team.gameType || team.gameConcerned || '').toLowerCase();
+            return category === 'moba' || game.includes('league') || game.includes('valorant') || game.includes('dota');
+        });
+
+        const brTeams = approvedSubmissions.filter(team => {
+            const category = (team.gameCategory || '').toLowerCase();
+            const game = (team.gameType || team.gameConcerned || '').toLowerCase();
+            return category === 'br' || game.includes('fortnite') || game.includes('apex') || game.includes('warzone');
+        });
+
+        // Afficher MOBA
+        if (mobaTeams.length > 0) {
+            mobaList.innerHTML = '';
+            mobaTeams.forEach(team => displayTeam(team, 'moba-list'));
+        }
+
+        // Afficher BR
+        if (brTeams.length > 0) {
+            brList.innerHTML = '';
+            brTeams.forEach(team => displayTeam(team, 'br-list'));
+        }
+    }
+
+    function displayTeam(team, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const logoSrc = team.clanLogo || team.logoData || team.logoUrl || '';
+        const teamCard = document.createElement('div');
+        teamCard.className = 'team-card';
+        
+        const players = team.players || [];
+        
+        teamCard.innerHTML = `
+            <div class="team-header">
+                ${logoSrc ? `<img src="${logoSrc}" alt="Logo ${team.teamName || team.clanName}" class="team-logo">` : '<div class="team-logo" style="display: flex; align-items: center; justify-content: center; background: #333; color: #666;">Pas de logo</div>'}
+                <div class="team-info">
+                    <h3>${team.teamName || team.clanName}</h3>
+                    <p class="team-meta">Jeu : ${team.gameConcerned || team.gameType || 'À définir'} | Capitaine : ${team.captainName}</p>
+                    <p class="team-availability">INSCRIPTION VALIDÉE</p>
+                </div>
+            </div>
+            ${players && players.length > 0 ? `
+                <div class="team-players">
+                    ${players.map((player, index) => {
+                        const name = typeof player === 'object' ? player.name : player;
+                        const role = typeof player === 'object' ? player.role : 'Joueur';
+                        const avatar = typeof player === 'object' && player.avatar ? player.avatar : '';
+                        
+                        return `
+                            <div class="player-card ${index === 0 ? 'highlight' : ''}">
+                                <div class="player-avatar">
+                                    ${avatar ? `<img src="${avatar}" alt="Avatar">` : '<span style="font-size: 10px; color: #999;">Avatar</span>'}
+                                </div>
+                                <div class="player-info">
+                                    <p class="player-name">${name}</p>
+                                    <p class="player-role">${role}</p>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            ` : ''}
+        `;
+        container.appendChild(teamCard);
+    }
+
+    // Initialisation
+    window.addEventListener('DOMContentLoaded', function() {
+        loadApprovedTeams();
+        const savedTab = localStorage.getItem('selectedTeamTab') || 'moba';
+        switchTab(savedTab);
+    });
+</script>
+<style>
+    .tab-content {
+        transition: opacity 0.3s ease;
+    }
+    .no-teams-message {
+        text-align: center;
+        background: rgba(255,255,255,0.9);
+        padding: 40px;
+        border-radius: 12px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    .no-teams-message a {
+        display: inline-block;
+        margin-top: 15px;
+        background: var(--primary);
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+</style>
+</body>
+</html>
