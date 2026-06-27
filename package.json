@@ -1,0 +1,21 @@
+{
+  "name": "225-esport-league",
+  "version": "2.0.0",
+  "description": "Site web pour la 225 E-SPORTS LEAGUE avec synchronisation des inscriptions",
+  "type": "module",
+  "scripts": {
+    "dev": "http-server",
+    "build": "echo 'No build required for static site'",
+    "start": "http-server"
+  },
+  "keywords": [
+    "esports",
+    "league",
+    "gaming",
+    "tournament"
+  ],
+  "author": "225 E-SPORTS LEAGUE",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
